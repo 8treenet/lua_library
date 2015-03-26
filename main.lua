@@ -18,9 +18,6 @@ local lastTime = system.getTimer( )
 local function callbackFunction( event )
 	local deltaTime = event.time - lastTime
 	local ret = ease:enter(deltaTime)
-	print( ret )
 	lastTime = event.time
 end
 Runtime:addEventListener("enterFrame", callbackFunction )
-
-local string = "gutaodengshanbao"
