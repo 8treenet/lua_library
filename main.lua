@@ -21,4 +21,3 @@ local function callbackFunction( event )
 	lastTime = event.time
 end
 Runtime:addEventListener("enterFrame", callbackFunction )
-print("dsb")
