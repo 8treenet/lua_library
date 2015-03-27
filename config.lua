@@ -1,10 +1,12 @@
+local x = display.pixelHeight / display.pixelWidth
+local w = 640
 application =
 {
 
 	content =
 	{
-		width = 320,
-		height = 480, 
+		width = w,
+		height = w * x, 
 		scale = "letterBox",
 		fps = 30,
 		
