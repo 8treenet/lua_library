@@ -6,8 +6,6 @@ require "CiderDebugger";--------------------------------------------------------
 -- @return
 local easeModule = require("kernel.ease")
 local fsm = require("kernel.fsm")
-fsm.init()
-easeModule.init()
 
 
 local width = display.contentWidth
