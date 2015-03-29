@@ -1,11 +1,12 @@
 local M = {}
-M.seq = 1                           --Ai的递增ID
-M.objPool = {}                      --ai角色列表
-M.statePool =  {}                   --状态列表
-M.msgList = {}                      --消息列表
+M.msgList = nil                      --消息列表
 
 function M.init()
-    
+    local structure = require("kernel.structure")
+    M.msgList = structure.newList()     --消息列表
+    M.seq = 1                           --Ai的递增ID
+    M.objPool = {}                      --ai角色列表
+    M.statePool =  {}                   --状态列表
 end
 
 function M.addObject(obj)           --为obj加入状态机
@@ -60,6 +61,19 @@ function M.update(deltaTime)         --更新状态机 时间增量
             state:update(deltaTime, obj)
         end
     end
+    local currentTime = system.getTimer()
+    local deleteData = {}
+    for element in M.msgList:foreach() do
+        if element.deltaTime >= currentTime then
+            local obj = M.objPool[element.recvFsmID]
+            obj:dispatchFsmMsg(element.msgID, element.data)
+            deleteData[#deleteData+1] = element
+        end
+    end
+
+    for i = 1, #deleteData do
+        M.msgList:remove(deleteData[i])
+    end
 end
 
 --加入状态到fsm 状态名，状态
@@ -71,9 +85,10 @@ end
 function M.sendMsg(recvFsmID, msgID, data, deltaTime)
     if deltaTime then
         local currentTime = system.getTimer()
-        M.msgList[#M.msgList+1] = {deltaTime = currentTime + deltaTime,
+        M.msgList:insert({deltaTime = currentTime + deltaTime,
+                                   recvFsmID = recvFsmID,
                                    msgID = msgID,
-                                   data = data}
+                                   data = data})
     else
         local obj = M.objPool[recvFsmID]
         if obj then
@@ -111,3 +126,52 @@ end
 
 return M
 
+
+--测试
+--local fsm = require("kernel.fsm")
+--fsm.init()
+--easeModule.init()
+--local moveState = fsm.newBaseState()
+--function moveState:start(obj)
+--        obj:changeFsmStateData("statu", {isMove = false})
+--    end
+--    
+--function moveState:quit(obj)
+--    obj:changeFsmStateData("statu", nil)
+--end
+--
+--math.randomseed(os.time())
+--function moveState:update(deltaTime, obj)
+--    local moveData = obj:getFsmStatuData("statu")
+--    if moveData.isMove == false then
+--        easeModule.addObject(obj, { x = math.random(width), 
+--        y = math.random(height)}, math.random(3000), function(target)
+--             target:changeFsmStateData("statu", {isMove = false})
+--        end)
+--        obj:changeFsmStateData("statu", {isMove = true})
+--    end
+--end
+--
+--function moveState:getName()
+--    return "moveState"
+--end
+--
+--fsm.addState("moveState", moveState)
+--fsm.addObject(obj)
+--obj:changeFsmState("statu", "moveState")
+--
+----处理消息 ai对象 消息id, 数据
+--function moveState:dispatchFsmMsg(obj, MsgID, data)
+--    if MsgID == "sb" then
+--        obj:deleteFsm()
+--    elseif MsgID == "zhuan" then
+--        obj.alpha = 0.3
+--    end
+--    
+--end
+--
+--
+--timer.performWithDelay(5000, function() 
+--    fsm.sendMsg(obj.fsmID, "zhuan", {})
+--end, 1)
+--
