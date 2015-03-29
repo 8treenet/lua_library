@@ -1,5 +1,5 @@
 local M = {}
-M.msgList = nil                      --消息列表
+
 
 function M.init()
     local structure = require("kernel.structure")
@@ -123,6 +123,8 @@ function M.newBaseState()                   --基础状态类
     
     return state
 end
+
+M.init()
 
 return M
 
