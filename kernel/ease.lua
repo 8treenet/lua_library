@@ -54,4 +54,6 @@ function M.update(deltaTime)
     end
 end
 
+M.init()
+
 return M
