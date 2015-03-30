@@ -66,7 +66,9 @@ function M.update(deltaTime)         --更新状态机 时间增量
     for element in M.msgList:foreach() do
         if element.deltaTime >= currentTime then
             local obj = M.objPool[element.recvFsmID]
-            obj:dispatchFsmMsg(element.msgID, element.data)
+            if obj then
+                obj:dispatchFsmMsg(element.msgID, element.data)
+            end
             deleteData[#deleteData+1] = element
         end
     end
