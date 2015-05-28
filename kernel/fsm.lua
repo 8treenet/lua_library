@@ -135,7 +135,10 @@ return M
 --local fsm = require("kernel.fsm")
 --fsm.init()
 --easeModule.init()
---local moveState = fsm.newBaseState()
+--local baseState = fsm.newBaseState()
+--local moveState = {}
+--moveState.super = baseState
+--setmetatable(moveState, {__index=baseState})
 --function moveState:start(obj)
 --        obj:changeFsmStateData("statu", {isMove = false})
 --    end
