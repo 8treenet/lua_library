@@ -28,6 +28,13 @@ function M.collided( obj1, obj2 )
    return (left or right) and (up or down)
 end
 
+--已知一个点,角度,距离 求另一个点 返回x,y
+function M.PolarPoints(x, y, angle, distance)
+    angle = angle * math.pi / 180
+    return (x + distance* math.cos(angle)),(y + distance* math.sin(angle))
+end
+
+
 --两点距离
 function M.distBetween( obj1, obj2)
    local xFactor = obj2.x - obj1.x
