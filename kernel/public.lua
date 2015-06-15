@@ -11,6 +11,24 @@ function M.init()
 
 end
 
+--圆形是否碰撞
+function M.isCircleCollided(obj1, obj2)
+    if ( obj1 == nil ) then  --make sure the first object exists
+       return false
+    end
+    if ( obj2 == nil ) then  --make sure the other object exists
+       return false
+    end
+    local pow1 = math.pow(obj1.x-obj2.x, 2)
+    local pow2 = math.pow(obj1.y-obj2.y, 2)
+    --local pow3 = math.pow(obj1.path.radius+obj2.path.radius, 2)
+    local pow3 = obj1.path.radius+obj2.path.radius
+    if math.sqrt(pow1+pow2) < pow3 then
+        return true
+    end
+    return false
+end
+
 --是否碰撞
 function M.collided( obj1, obj2 )
    if ( obj1 == nil ) then  --make sure the first object exists
