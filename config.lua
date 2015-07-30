@@ -1,5 +1,5 @@
 local x = display.pixelHeight / display.pixelWidth
-local w = 650
+local w = 640
 application =
 {
 
