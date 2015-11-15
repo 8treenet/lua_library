@@ -22,8 +22,8 @@
 
 function class(super)
     local obj = {}
-    obj.super = super
-    setmetatable(obj, {__index = super})
+    obj.parent = parent
+    setmetatable(obj, {__index = parent})
     function obj.new(...)
         obj:ctor(...)
         return obj
