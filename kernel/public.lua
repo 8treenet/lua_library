@@ -222,5 +222,12 @@ function M.printTable ( t )
     end
     print()
 end
- 
+
+--指数分布求随机数
+function M.random(min, max, average)
+    --math.randomseed(os.time());
+    local beta = average - min;
+    local num  = math.random(1, max-min) / (max-min);
+    return min - beta * math.log(num);
+end
 return M
